@@ -3304,3 +3304,30 @@ runcode(function()
             end
         })
     end)
+	runcode(function()
+		local times = 39999
+		local shieldlagger = {["Enabled"] = false}
+		shieldlagger = GuiLibrary["ObjectsThatCanBeSaved"]["UtilityWindow"]["Api"].CreateOptionsButton({
+			["Name"] = "ShieldLagger",
+			["HoverText"] = "THEY UNPATCHED IT LMFAO (LAGS THE WHOLE GAME FOR 20S)",
+			["Function"] = function(callback)
+				if callback then
+							shieldlagger["ToggleButton"](false)
+				while(true)
+				do
+					wait(0.0000011)
+					local args = {
+						[1] = {
+							["raised"] = true
+						}
+					}
+					
+					game:GetService("ReplicatedStorage").rbxts_include.node_modules:FindFirstChild("@rbxts").net.out._NetManaged.UseInfernalShield:FireServer(unpack(args))
+					
+					end
+				end
+			end 
+	
+		})
+	end)
+	
