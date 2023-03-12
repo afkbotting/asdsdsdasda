@@ -2618,21 +2618,21 @@ cam = TPAura.CreateToggle({
   })
 end)
 runcode(function()
-	local ClickTP = {Enabled = false}
-	local ClickTPMethod = {Value = "Normal"}
-	local ClickTPDelay = {Value = 1}
-	local ClickTPAmount = {Value = 1}
-	local ClickTPVertical = {Enabled = true}
-	local ClickTPVelocity = {Enabled = false}
-	local ClickTPRaycast = RaycastParams.new()
+	local ClickTP1 = {Enabled = false}
+	local ClickTPMethod1 = {Value = "Normal"}
+	local ClickTPDelay1 = {Value = 1}
+	local ClickTPAmount1 = {Value = 1}
+	local ClickTPVertical1 = {Enabled = true}
+	local ClickTPVelocity1 = {Enabled = false}
+	local ClickTPRaycast1 = RaycastParams.new()
 	ClickTPRaycast.RespectCanCollide = true
 	ClickTPRaycast.FilterType = Enum.RaycastFilterType.Blacklist
-	ClickTP = GuiLibrary.ObjectsThatCanBeSaved.BlatantWindow.Api.CreateOptionsButton({
-		Name = "MouseTP", 
+	ClickTP1 = GuiLibrary.ObjectsThatCanBeSaved.BlatantWindow.Api.CreateOptionsButton({
+		Name = "MouseTP1", 
 		Function = function(callback) 
 			if callback then
-				RunLoops:BindToHeartbeat("MouseTP", function()
-					if entityLibrary.isAlive and ClickTPVelocity.Enabled and ClickTPMethod.Value == "SlowTP" then 
+				RunLoops:BindToHeartbeat("MouseTP1", function()
+					if entityLibrary.isAlive and ClickTPVelocity1.Enabled and ClickTPMethod1.Value == "SlowTP1" then 
 						entityLibrary.character.HumanoidRootPart.Velocity = Vector3.zero
 					end
 				end)
@@ -2641,9 +2641,9 @@ runcode(function()
 					local ray = workspace:Raycast(gameCamera.CFrame.p, lplr:GetMouse().UnitRay.Direction * 10000, ClickTPRaycast)
 					local selectedPosition = ray and ray.Position + Vector3.new(0, entityLibrary.character.Humanoid.HipHeight + (entityLibrary.character.HumanoidRootPart.Size.Y / 2), 0)
 					if selectedPosition then 
-						if ClickTPMethod.Value == "Normal" then
+						if ClickTPMethod1.Value == "Normal" then
 							entityLibrary.character.HumanoidRootPart.CFrame = CFrame.new(selectedPosition)
-							ClickTP.ToggleButton(false)
+							ClickTP1.ToggleButton(false)
 						else
 							task.spawn(function()
 								repeat
@@ -2657,15 +2657,15 @@ runcode(function()
 									end
 									task.wait(ClickTPDelay.Value / 100)
 								until entityLibrary.isAlive and (selectedPosition - entityLibrary.character.HumanoidRootPart.CFrame.p).Magnitude <= 5 or not ClickTP.Enabled
-								if ClickTP.Enabled then ClickTP.ToggleButton(false) end
+								if ClickTP1.Enabled then ClickTP1.ToggleButton(false) end
 							end)
 						end
 					else
-						ClickTP.ToggleButton(false)
+						ClickTP1.ToggleButton(false)
 						warningNotification("ClickTP", "No position found.", 1)
 					end
 				else
-					if ClickTP.Enabled then ClickTP.ToggleButton(false) end
+					if ClickTP1.Enabled then ClickTP1.ToggleButton(false) end
 				end
 			else
 				RunLoops:UnbindFromHeartbeat("MouseTP")
@@ -2673,40 +2673,40 @@ runcode(function()
 		end, 
 		HoverText = "Teleports to where your mouse is."
 	})
-	ClickTPMethod = ClickTP.CreateDropdown({
+	ClickTPMethod1 = ClickTP1.CreateDropdown({
 		Name = "Method",
 		List = {"Normal", "SlowTP"},
 		Function = function(val)
-			if ClickTPAmount.Object then ClickTPAmount.Object.Visible = val == "SlowTP" end
-			if ClickTPDelay.Object then ClickTPDelay.Object.Visible = val == "SlowTP" end
-			if ClickTPVertical.Object then ClickTPVertical.Object.Visible = val == "SlowTP" end
-			if ClickTPVelocity.Object then ClickTPVelocity.Object.Visible = val == "SlowTP" end
+			if ClickTPAmount1.Object then ClickTPAmount1.Object.Visible = val == "SlowTP" end
+			if ClickTPDelay1.Object then ClickTPDelay1.Object.Visible = val == "SlowTP" end
+			if ClickTPVertical1.Object then ClickTPVertical1.Object.Visible = val == "SlowTP" end
+			if ClickTPVelocity1.Object then ClickTPVelocity1.Object.Visible = val == "SlowTP" end
 		end
 	})
-	ClickTPAmount = ClickTP.CreateSlider({
+	ClickTPAmount1 = ClickTP1.CreateSlider({
 		Name = "Amount",
 		Min = 1,
 		Max = 50,
 		Function = function() end
 	})
-	ClickTPAmount.Object.Visible = false
-	ClickTPDelay = ClickTP.CreateSlider({
+	ClickTPAmount1.Object.Visible = false
+	ClickTPDelay1 = ClickTP1.CreateSlider({
 		Name = "Delay",
 		Min = 1,
 		Max = 50,
 		Function = function() end
 	})
-	ClickTPDelay.Object.Visible = false
-	ClickTPVertical = ClickTP.CreateToggle({
+	ClickTPDelay1.Object.Visible = false
+	ClickTPVertical1 = ClickTP1.CreateToggle({
 		Name = "Vertical",
 		Default = true,
 		Function = function() end
 	})
-	ClickTPVertical.Object.Visible = false
-	ClickTPVelocity = ClickTP.CreateToggle({
+	ClickTPVertical1.Object.Visible = false
+	ClickTPVelocity1 = ClickTP1.CreateToggle({
 		Name = "No Velocity",
 		Default = true,
 		Function = function() end
 	})
-	ClickTPVelocity.Object.Visible = false
+	ClickTPVelocity1.Object.Visible = false
 end)
