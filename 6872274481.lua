@@ -2473,7 +2473,6 @@ runcode(function()
 							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
 							until v.Character.Humanoid.Health == 0 or not v.Character:FindFirstChild("Humanoid") or (not autowin.Enabled) 
 							createwarning("Grass private", "Skywars Autowin Disabled", 2)
-							autowin.ToggleButton(false)
 						end
 					end
 				end
@@ -2482,45 +2481,6 @@ runcode(function()
     })
 end)
 
-runcode(function()
-    local invis = {["Enabled"] = false}
-    invis = GuiLibrary["ObjectsThatCanBeSaved"]["BlatantWindow"]["Api"].CreateOptionsButton({
-        ["Name"] = "invis",
-        ["HoverText"] = "change funny bypass a bit",
-        ["Function"] = function(callback)
-            if callback then
-				entity.character.HumanoidRootPart.CFrame *= CFrame.new(0, 100000, 0)
-				
-				local lplr = game.Players.LocalPlayer
-				local cam = workspace.CurrentCamera
-				local oldchar
-				local clone
-
-				oldchar = lplr.Character
-				oldchar.Archivable = true
-				clone = oldchar:Clone()
-				oldchar.PrimaryPart.Anchored = false
-
-				local humc = oldchar.Humanoid:Clone()
-				humc.Parent = lplr.Character
-
-				cam.CameraSubject = clone.Humanoid 
-				clone.Parent = workspace
-				lplr.Character = clone
-				local pos = entity.character.HumanoidRootPart.Position
-                local rcparams = RaycastParams.new()
-                rcparams.FilterType = Enum.RaycastFilterType.Whitelist
-                rcparams.FilterDescendantsInstances = {workspace.Map}
-                rc = workspace:Raycast(Vector3.new(pos.x, 300, pos.z), Vector3.new(0,-1000,0), rcparams)
-                if rc and rc.Position then
-                    entity.character.HumanoidRootPart.CFrame = CFrame.new(rc.Position) * CFrame.new(0,3,0)
-                end
-				createwarning("Grass private", "To remove", 2)
-                invis["ToggleButton"](false)
-            end
-        end
-    })
-end)
 local keystrokestroll = GuiLibrary["ObjectsThatCanBeSaved"]["WorldWindow"]["Api"].CreateOptionsButton({
     ["Name"] = "CPS & WASD Keystrokes",
     ["Function"] = function(callback)
@@ -2589,4 +2549,71 @@ runcode(function()
         end,
 HoverText = "Dragon exploit"
     })
+end)
+runcode(function()
+	local TPAura = {["Enabled"] = false}
+	  TPAura = GuiLibrary.ObjectsThatCanBeSaved.BlatantWindow.Api.CreateOptionsButton({
+	  Name = "TPAura",
+	  Function = function(callback)
+		  if callback then
+			  task.spawn(function()
+				  repeat
+					  task.wait(0.03)
+					  if (GuiLibrary.ObjectsThatCanBeSaved["Lobby CheckToggle"]["Api"].Enabled == false or matchState ~= 0) and TPAura["Enabled"] then
+						  local plrs = GetAllNearestHumanoidToPosition(true, 10000, 1, false)
+						  for i,plr in pairs(plrs) do
+							  if plrs then
+									  local player = game.Players.LocalPlayer
+									  local camera = game.Workspace.CurrentCamera
+									  local targetPlayer = nil
+									  local distance = 1000000000
+									  local team = lplr.Team
+									  local cameraSubject = lplr.Character.Humanoid
+						  
+									  function findNearestPlayerOffTeam()
+										  local nearestPlayer = nil
+										  local nearestDistance = math.huge
+										  
+										  for _, currentPlayer in pairs(game.Players:GetPlayers()) do
+											  if currentPlayer ~= player and currentPlayer.Team ~= team and currentPlayer.Character and currentPlayer.Character.Humanoid.Health > 0 then
+												  local currentDistance = (currentPlayer.Character.Head.Position - player.Character.Head.Position).magnitude
+												  if currentDistance < nearestDistance then
+													  nearestPlayer = currentPlayer
+													  nearestDistance = currentDistance
+												  end
+											  end
+										  end
+										  
+										  return nearestPlayer
+								  end
+								  if cam.Enabled then 
+										workspace.CurrentCamera.CameraType = Enum.CameraType.Fixed
+						end
+								  entityLibrary.character.HumanoidRootPart.Anchored = true
+								  if targetPlayer and targetPlayer.Character and targetPlayer.Character.Humanoid.Health > 0 then
+									  player.Character.HumanoidRootPart.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1)
+							  end
+							  local distance = 1000000000
+							  targetPlayer = findNearestPlayerOffTeam()
+							  if targetPlayer and (lplr.Character.Head.Position - targetPlayer.Character.Head.Position).magnitude <= distance then
+								  lplr.Character.HumanoidRootPart.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1)
+							  end
+						  end
+					   end
+			end
+		   until TPAura.Enabled == false
+							if TPAura.Enabled == false then
+					entityLibrary.character.HumanoidRootPart.Anchored = false
+							  workspace.CurrentCamera.CameraType = Enum.CameraType.Track
+						   end
+		  end)
+		  end
+	  end,
+	  ["HoverText"] = "Found By Xzyn (requires bow + arrows)"
+  })
+cam = TPAura.CreateToggle({
+	  Name = "NoCamera",
+	  Function = function() end,
+	  HoverText = "removes your Camera"
+  })
 end)
