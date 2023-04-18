@@ -1,11 +1,4 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/"..readfile("vape/commithash.txt").."/CustomModules/6872274481.lua", true))()
---[[ 
-	Credits
-	Infinite Yield - Blink
-	DevForum - lots of rotation math because I hate it
-	Please notify me if you need credits
-]]
-local entityLibrary = shared.vapeentity
 local GuiLibrary = shared.GuiLibrary
 local players = game:GetService("Players")
 local textservice = game:GetService("TextService")
@@ -834,9 +827,9 @@ local oldbob
 local globalgroundtouchedtime = tick()
 local jumptable = {}
 runcode(function()
-    getfunctions = function()
+	getfunctions = function()
 		local Flamework = require(repstorage["rbxts_include"]["node_modules"]["@flamework"].core.out).Flamework
-        local KnitGotten, KnitClient
+		local KnitGotten, KnitClient
 		repeat
 			task.wait()
 			KnitGotten, KnitClient = pcall(function()
@@ -844,10 +837,10 @@ runcode(function()
 			end)
 		until KnitGotten
 		repeat task.wait() until debug.getupvalue(KnitClient.Start, 1) == true
-        local Client = require(repstorage.TS.remotes).default.Client
-        local InventoryUtil = require(repstorage.TS.inventory["inventory-util"]).InventoryUtil
-        OldClientGet = getmetatable(Client).Get
-        getmetatable(Client).Get = function(Self, remotename)
+		local Client = require(repstorage.TS.remotes).default.Client
+		local InventoryUtil = require(repstorage.TS.inventory["inventory-util"]).InventoryUtil
+		OldClientGet = getmetatable(Client).Get
+		getmetatable(Client).Get = function(Self, remotename)
 			if uninjectflag then return OldClientGet(Self, remotename) end
 			local res = OldClientGet(Self, remotename)
 			if remotename == "DamageBlock" then
@@ -897,8 +890,8 @@ runcode(function()
 					end
 				}
 			end
-            return res
-        end
+			return res
+		end
 		bedwars = {
 			["AngelUtil"] = require(repstorage.TS.games.bedwars.kit.kits.angel["angel-kit"]),
 			["AnimationType"] = require(repstorage.TS.animation["animation-type"]).AnimationType,
@@ -1017,14 +1010,14 @@ runcode(function()
 			["VictoryScreen"] = require(lplr.PlayerScripts.TS.controllers["game"].match.ui["victory-section"]).VictorySection,
 			["ViewmodelController"] = KnitClient.Controllers.ViewmodelController,
 			["WeldTable"] = require(repstorage.TS.util["weld-util"]).WeldUtil
-        }
+		}
 		oldbob = bedwars["ViewmodelController"]["playAnimation"]
-        bedwars["ViewmodelController"]["playAnimation"] = function(Self, id, ...)
-            if id == 19 and nobob.Enabled and entityLibrary.isAlive then
-                id = 11
-            end
-            return oldbob(Self, id, ...)
-        end
+		bedwars["ViewmodelController"]["playAnimation"] = function(Self, id, ...)
+			if id == 19 and nobob.Enabled and entityLibrary.isAlive then
+				id = 11
+			end
+			return oldbob(Self, id, ...)
+		end
 		blocktable = bedwars["BlockController2"].new(bedwars["BlockEngine"], getwool())
 		bedwars["placeBlock"] = function(newpos, customblock)
 			if getItem(customblock) then
@@ -1067,10 +1060,10 @@ runcode(function()
 			if p3.Inventory ~= p4.Inventory then
 				currentinventory = p3.Inventory.observedInventory
 			end
-        end)
+		end)
 		local clientstorestate = bedwars["ClientStoreHandler"]:getState()
-        matchState = clientstorestate.Game.matchState or 0
-        kit = clientstorestate.Bedwars.kit ~= "none" and clientstorestate.Bedwars.kit or ""
+		matchState = clientstorestate.Game.matchState or 0
+		kit = clientstorestate.Bedwars.kit ~= "none" and clientstorestate.Bedwars.kit or ""
 		queueType = clientstorestate.Game.queueType or "bedwars_test"
 		currentinventory = clientstorestate.Inventory.observedInventory
 		if not shared.vapebypassed then
@@ -1218,7 +1211,7 @@ runcode(function()
 			})
 			writefile("vape/Profiles/bedwarssettings.json", jsondata)
 		end)
-    end
+	end
 end)
 
 GuiLibrary["SelfDestructEvent"].Event:Connect(function()
@@ -1279,17 +1272,17 @@ task.spawn(function()
 end)
 
 connectionstodisconnect[#connectionstodisconnect + 1] = lplr.OnTeleport:Connect(function(State)
-    if State == Enum.TeleportState.Started then
+	if State == Enum.TeleportState.Started then
 		local clientstorestate = bedwars["ClientStoreHandler"] and bedwars["ClientStoreHandler"]:getState() or {Party = {members = 0}}
 		local queuedstring = ''
 		if clientstorestate.Party and clientstorestate.Party.members and #clientstorestate.Party.members > 0 then
-        	queuedstring = queuedstring..'shared.vapeteammembers = '..#clientstorestate.Party.members..'\n'
+			queuedstring = queuedstring..'shared.vapeteammembers = '..#clientstorestate.Party.members..'\n'
 		end
 		if tpstring then
 			queuedstring = queuedstring..'shared.vapeoverlay = "'..tpstring..'"\n'
 		end
 		queueteleport(queuedstring)
-    end
+	end
 end)
 
 local function getblock(pos)
@@ -1588,35 +1581,35 @@ do
 	entityLibrary.characterAdded = function(plr, char, localcheck)
 		local id = game:GetService("HttpService"):GenerateGUID(true)
 		entityLibrary.entityIds[plr.Name] = id
-        if char then
-            task.spawn(function()
-                local humrootpart = char:WaitForChild("HumanoidRootPart", 10)
-                local head = char:WaitForChild("Head", 10)
-                local hum = char:WaitForChild("Humanoid", 10)
+		if char then
+			task.spawn(function()
+				local humrootpart = char:WaitForChild("HumanoidRootPart", 10)
+				local head = char:WaitForChild("Head", 10)
+				local hum = char:WaitForChild("Humanoid", 10)
 				if entityLibrary.entityIds[plr.Name] ~= id then return end
-                if humrootpart and hum and head then
+				if humrootpart and hum and head then
 					local childremoved
-                    local newent
-                    if localcheck then
-                        entityLibrary.isAlive = true
-                        entityLibrary.character.Head = head
-                        entityLibrary.character.Humanoid = hum
-                        entityLibrary.character.HumanoidRootPart = humrootpart
-                    else
+					local newent
+					if localcheck then
+						entityLibrary.isAlive = true
+						entityLibrary.character.Head = head
+						entityLibrary.character.Humanoid = hum
+						entityLibrary.character.HumanoidRootPart = humrootpart
+					else
 						newent = {
-                            Player = plr,
-                            Character = char,
-                            HumanoidRootPart = humrootpart,
-                            RootPart = humrootpart,
-                            Head = head,
-                            Humanoid = hum,
-                            Targetable = entityLibrary.isPlayerTargetable(plr),
-                            Team = plr.Team,
-                            Connections = {},
+							Player = plr,
+							Character = char,
+							HumanoidRootPart = humrootpart,
+							RootPart = humrootpart,
+							Head = head,
+							Humanoid = hum,
+							Targetable = entityLibrary.isPlayerTargetable(plr),
+							Team = plr.Team,
+							Connections = {},
 							Jumping = false,
 							Jumps = 0,
 							JumpTick = tick()
-                        }
+						}
 						local inv = char:WaitForChild("InventoryFolder", 5)
 						if inv then 
 							local armorobj1 = char:WaitForChild("ArmorInvItem_0", 5)
@@ -1675,7 +1668,7 @@ do
 						table.insert(newent.Connections, char.AttributeChanged:Connect(function(attr) if attr:find("Shield") then entityLibrary.entityUpdatedEvent:Fire(newent) end end))
 						table.insert(entityLibrary.entityList, newent)
 						entityLibrary.entityAddedEvent:Fire(newent)
-                    end
+					end
 					if entityLibrary.entityIds[plr.Name] ~= id then return end
 					childremoved = char.ChildRemoved:Connect(function(part)
 						if part.Name == "HumanoidRootPart" or part.Name == "Head" or part.Name == "Humanoid" then			
@@ -1705,42 +1698,42 @@ do
 						table.insert(newent.Connections, childremoved)
 					end
 					table.insert(entityLibrary.entityConnections, childremoved)
-                end
-            end)
-        end
-    end
+				end
+			end)
+		end
+	end
 	entityLibrary.entityAdded = function(plr, localcheck, custom)
 		table.insert(entityLibrary.entityConnections, plr:GetPropertyChangedSignal("Character"):Connect(function()
-            if plr.Character then
-                entityLibrary.refreshEntity(plr, localcheck)
-            else
-                if localcheck then
-                    entityLibrary.isAlive = false
-                else
-                    entityLibrary.removeEntity(plr)
-                end
-            end
-        end))
-        table.insert(entityLibrary.entityConnections, plr:GetAttributeChangedSignal("Team"):Connect(function()
+			if plr.Character then
+				entityLibrary.refreshEntity(plr, localcheck)
+			else
+				if localcheck then
+					entityLibrary.isAlive = false
+				else
+					entityLibrary.removeEntity(plr)
+				end
+			end
+		end))
+		table.insert(entityLibrary.entityConnections, plr:GetAttributeChangedSignal("Team"):Connect(function()
 			local tab = {}
 			for i,v in next, entityLibrary.entityList do
-                if v.Targetable ~= entityLibrary.isPlayerTargetable(v.Player) then 
-                    table.insert(tab, v)
-                end
-            end
+				if v.Targetable ~= entityLibrary.isPlayerTargetable(v.Player) then 
+					table.insert(tab, v)
+				end
+			end
 			for i,v in next, tab do 
 				entityLibrary.refreshEntity(v.Player)
 			end
-            if localcheck then
-                entityLibrary.fullEntityRefresh()
-            else
+			if localcheck then
+				entityLibrary.fullEntityRefresh()
+			else
 				entityLibrary.refreshEntity(plr, localcheck)
-            end
-        end))
+			end
+		end))
 		if plr.Character then
-            task.spawn(entityLibrary.refreshEntity, plr, localcheck)
-        end
-    end
+			task.spawn(entityLibrary.refreshEntity, plr, localcheck)
+		end
+	end
 	entityLibrary.fullEntityRefresh()
 end
 
@@ -1780,7 +1773,7 @@ runcode(function()
 end)
 
 local function getBestTool(block)
-    local tool = nil
+	local tool = nil
 	local blockmeta = bedwars["ItemTable"][block]
 	local blockType = blockmeta["block"] and blockmeta["block"]["breakType"]
 	if blockType then
@@ -1792,7 +1785,7 @@ local function getBestTool(block)
 			end
 		end
 	end
-    return tool
+	return tool
 end
 
 local function switchToAndUseTool(block, legit)
@@ -1880,36 +1873,36 @@ local healthbarblocktable = {
 	["breakingBlockPosition"] = Vector3.zero
 }
 bedwars["breakBlock"] = function(pos, effects, normal, bypass, anim)
-    if lplr:GetAttribute("DenyBlockBreak") == true then
+	if lplr:GetAttribute("DenyBlockBreak") == true then
 		return nil
 	end
 	local block, blockpos = nil, nil
 	if not bypass then block, blockpos = getlastblock(pos, normal) end
 	if not block then block, blockpos = getblock(pos) end
-    if blockpos and block then
-        if bedwars["BlockEngineClientEvents"].DamageBlock:fire(block.Name, blockpos, block):isCancelled() then
-            return nil
-        end
-        local blockhealthbarpos = {blockPosition = Vector3.zero}
-        local blockdmg = 0
-        if block and block.Parent ~= nil then
+	if blockpos and block then
+		if bedwars["BlockEngineClientEvents"].DamageBlock:fire(block.Name, blockpos, block):isCancelled() then
+			return nil
+		end
+		local blockhealthbarpos = {blockPosition = Vector3.zero}
+		local blockdmg = 0
+		if block and block.Parent ~= nil then
 			if ((oldcloneroot and oldcloneroot.Position or entityLibrary.LocalPosition or entityLibrary.character.HumanoidRootPart.Position) - (blockpos * 3)).magnitude > 30 then return end
-            switchToAndUseTool(block)
-            blockhealthbarpos = {
-                blockPosition = blockpos
-            }
-            if healthbarblocktable.blockHealth == -1 or blockhealthbarpos.blockPosition ~= healthbarblocktable.breakingBlockPosition then
+			switchToAndUseTool(block)
+			blockhealthbarpos = {
+				blockPosition = blockpos
+			}
+			if healthbarblocktable.blockHealth == -1 or blockhealthbarpos.blockPosition ~= healthbarblocktable.breakingBlockPosition then
 				local blockdata = bedwars["BlockController"]:getStore():getBlockData(blockhealthbarpos.blockPosition)
 				local blockhealth = blockdata and blockdata:GetAttribute(lplr.Name .. "_Health") or block:GetAttribute("Health")
 				healthbarblocktable.blockHealth = blockhealth
 				healthbarblocktable.breakingBlockPosition = blockhealthbarpos.blockPosition
 			end
-            blockdmg = bedwars["BlockController"]:calculateBlockDamage(lplr, blockhealthbarpos)
-		    bedwars["ClientHandlerDamageBlock"]:Get("DamageBlock"):CallServerAsync({
-                blockRef = blockhealthbarpos, 
-                hitPosition = blockpos * 3, 
-                hitNormal = Vector3.FromNormalId(normal)
-            }):andThen(function(result)
+			blockdmg = bedwars["BlockController"]:calculateBlockDamage(lplr, blockhealthbarpos)
+			bedwars["ClientHandlerDamageBlock"]:Get("DamageBlock"):CallServerAsync({
+				blockRef = blockhealthbarpos, 
+				hitPosition = blockpos * 3, 
+				hitNormal = Vector3.FromNormalId(normal)
+			}):andThen(function(result)
 				if result ~= "failed" then
 					healthbarblocktable.blockHealth = math.max(healthbarblocktable.blockHealth - blockdmg, 0)
 					if effects then
@@ -1936,8 +1929,8 @@ bedwars["breakBlock"] = function(pos, effects, normal, bypass, anim)
 			if animation ~= nil then
 				animation:Destroy()
 			end
-        end
-    end
+		end
+	end
 end	
 
 local function getEquipped()
@@ -1947,36 +1940,36 @@ local function getEquipped()
 		local metatab = bedwars["ItemTable"][obj.itemType]
 		typetext = metatab.sword and "sword" or metatab.block and "block" or obj.itemType:find("bow") and "bow"
 	end
-    return {["Object"] = obj and obj.tool, ["Type"] = typetext}
+	return {["Object"] = obj and obj.tool, ["Type"] = typetext}
 end
 
 local function GetAllNearestHumanoidToPosition(player, distance, amount, targetcheck, overridepos, sortfunc, funny)
 	local returnedplayer = {}
 	local currentamount = 0
-    if entityLibrary.isAlive then -- alive check
-        for i, v in pairs(entityLibrary.entityList) do -- loop through players
-            if (v.Targetable or targetcheck) and targetCheck(v) then -- checks
+	if entityLibrary.isAlive then -- alive check
+		for i, v in pairs(entityLibrary.entityList) do -- loop through players
+			if (v.Targetable or targetcheck) and targetCheck(v) then -- checks
 				local pos = funny and entityLibrary.OtherPosition[v.Player] or v.RootPart.Position
-                local mag = (entityLibrary.character.HumanoidRootPart.Position - pos).magnitude
+				local mag = (entityLibrary.character.HumanoidRootPart.Position - pos).magnitude
 				if overridepos and mag > distance then 
 					mag = (overridepos - pos).magnitude
 				end
-                if mag <= distance then -- mag check
-                    table.insert(returnedplayer, v)
+				if mag <= distance then -- mag check
+					table.insert(returnedplayer, v)
 					currentamount = currentamount + 1
-                end
-            end
-        end
+				end
+			end
+		end
 		for i2,v2 in pairs(collectionservice:GetTagged("Monster")) do -- monsters
 			if v2.PrimaryPart and currentamount < amount and v2:GetAttribute("Team") ~= lplr:GetAttribute("Team") then -- no duck
 				local mag = (entityLibrary.character.HumanoidRootPart.Position - v2.PrimaryPart.Position).magnitude
 				if overridepos and mag > distance then 
 					mag = (overridepos - v2.PrimaryPart.Position).magnitude
 				end
-                if mag <= distance then -- magcheck
-                    table.insert(returnedplayer, {Player = {Name = (v2 and v2.Name or "Monster"), UserId = (v2 and v2.Name == "Duck" and 2020831224 or 1443379645)}, Character = v2, RootPart = v2.PrimaryPart}) -- monsters are npcs so I have to create a fake player for target info
+				if mag <= distance then -- magcheck
+					table.insert(returnedplayer, {Player = {Name = (v2 and v2.Name or "Monster"), UserId = (v2 and v2.Name == "Duck" and 2020831224 or 1443379645)}, Character = v2, RootPart = v2.PrimaryPart}) -- monsters are npcs so I have to create a fake player for target info
 					currentamount = currentamount + 1
-                end
+				end
 			end
 		end
 		for i3,v3 in pairs(collectionservice:GetTagged("Drone")) do -- drone
@@ -1988,10 +1981,10 @@ local function GetAllNearestHumanoidToPosition(player, distance, amount, targetc
 				if overridepos and mag > distance then 
 					mag = (overridepos - v3.PrimaryPart.Position).magnitude
 				end
-                if mag <= distance then -- magcheck
-                    table.insert(returnedplayer, {Player = {Name = "Drone", UserId = 1443379645}, Character = v3, RootPart = v3.PrimaryPart}) -- monsters are npcs so I have to create a fake player for target info
+				if mag <= distance then -- magcheck
+					table.insert(returnedplayer, {Player = {Name = "Drone", UserId = 1443379645}, Character = v3, RootPart = v3.PrimaryPart}) -- monsters are npcs so I have to create a fake player for target info
 					currentamount = currentamount + 1
-                end
+				end
 			end
 		end
 		if currentamount > 0 and sortfunc then 
@@ -2026,8 +2019,8 @@ end
 
 local function GetNearestHumanoidToPosition(player, distance, overridepos)
 	local closest, returnedplayer = distance, nil
-    if entityLibrary.isAlive then
-        for i, v in pairs(entityLibrary.entityList) do
+	if entityLibrary.isAlive then
+		for i, v in pairs(entityLibrary.entityList) do
 			if v.Targetable and targetCheck(v) then
 				local mag = (entityLibrary.character.HumanoidRootPart.Position - v.RootPart.Position).magnitude
 				if overridepos and mag > distance then 
@@ -2041,17 +2034,17 @@ local function GetNearestHumanoidToPosition(player, distance, overridepos)
 					end
 				end
 			end
-        end
+		end
 		for i2,v2 in pairs(collectionservice:GetTagged("Monster")) do -- monsters
 			if v2.PrimaryPart and v2:GetAttribute("Team") ~= lplr:GetAttribute("Team") then -- no duck
 				local mag = (entityLibrary.character.HumanoidRootPart.Position - v2.PrimaryPart.Position).magnitude
 				if overridepos and mag > distance then 
 					mag = (overridepos - v2.PrimaryPart.Position).magnitude
 				end
-                if mag <= closest then -- magcheck
-                    closest = mag
+				if mag <= closest then -- magcheck
+					closest = mag
 					returnedplayer = {Player = {Name = (v2 and v2.Name or "Monster"), UserId = (v2 and v2.Name == "Duck" and 2020831224 or 1443379645)}, Character = v2, RootPart = v2.PrimaryPart} -- monsters are npcs so I have to create a fake player for target info
-                end
+				end
 			end
 		end
 		for i3,v3 in pairs(collectionservice:GetTagged("Drone")) do -- drone
@@ -2063,10 +2056,10 @@ local function GetNearestHumanoidToPosition(player, distance, overridepos)
 				if overridepos and mag > distance then 
 					mag = (overridepos - v3.PrimaryPart.Position).magnitude
 				end
-                if mag <= closest then -- magcheck
+				if mag <= closest then -- magcheck
 					closest = mag
-                    returnedplayer = {Player = {Name = "Drone", UserId = 1443379645}, Character = v3, RootPart = v3.PrimaryPart} -- monsters are npcs so I have to create a fake player for target info
-                end
+					returnedplayer = {Player = {Name = "Drone", UserId = 1443379645}, Character = v3, RootPart = v3.PrimaryPart} -- monsters are npcs so I have to create a fake player for target info
+				end
 			end
 		end
 	end
@@ -2187,526 +2180,236 @@ task.spawn(function()
 	end
 end)
 
-GuiLibrary["RemoveObject"]("PanicOptionsButton")
-GuiLibrary["RemoveObject"]("MissileTPOptionsButton")
-GuiLibrary["RemoveObject"]("SwimOptionsButton")
-GuiLibrary["RemoveObject"]("FullbrightOptionsButton")
-GuiLibrary["RemoveObject"]("HighJumpOptionsButton")
-
-InfiniteJump = GuiLibrary.ObjectsThatCanBeSaved.BlatantWindow.Api.CreateOptionsButton({
-    ["Name"] = "InfiniteJump",
-    ["Function"] = function(callback)
-        if callback then
-			local InfiniteJumpEnabled = true
-			game:GetService("UserInputService").JumpRequest:connect(function()
-				if InfiniteJumpEnabled then
-					game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+runcode(function()
+	local ChatPos1 = {Value = 500}
+	local ChatPosition = {Enabled = true}
+	local ChatColor = {Enabled = true}
+	local Chat = {Enabled = false}
+	Chat = GuiLibrary.ObjectsThatCanBeSaved.RenderWindow.Api.CreateOptionsButton({
+		Name = "Chat",
+		HoverText = "Customizes the chat color, position and text color",
+		Function = function(callback)
+			if callback then
+				if ChatColor.Enabled then
+					task.spawn(function()
+						repeat
+							task.wait(1)
+							task.spawn(function()
+								game:GetService("Chat"):SetBubbleChatSettings({
+									BackgroundColor3 = Color3.fromRGB(255, 0, 255),
+									TextColor3 = Color3.fromRGB(255, 255, 255)
+								})
+							end)
+						until (not Chat.Enabled)
+					end)
 				end
-			end)
-        else
-			InfiniteJumpEnabled = false
+				if ChatPosition.Enabled then
+					game:GetService("StarterGui"):SetCore('ChatWindowPosition', UDim2.new(0, 0, 0, ChatPos1.Value))
+				else
+					game:GetService("StarterGui"):SetCore('ChatWindowPosition', UDim2.new(0, 0, 0, 0))
+				end
+			end
 		end
-    end
-})
-
-
-
-
-
-runcode(function()
-    local RootRemover = {["Enabled"] = false}
-    RootRemover = GuiLibrary["ObjectsThatCanBeSaved"]["UtilityWindow"]["Api"].CreateOptionsButton({
-        ["Name"] = "RootRemover",
-        ["HoverText"] = "Destroys your HumanoidRootPart",
-        ["Function"] = function(callback)
-            if callback then
-                local char = lplr.Character
-                local primary = char.PrimaryPart
-                primary.Parent = nil
-                char:MoveTo(char:GetPivot().p)
-                task.wait()
-                primary.Parent = char
-            else
-                createwarning("Grass priv", "Reset to disable", 3)
-            end
-        end
-    })
+	})
+	ChatPos1 = Chat.CreateSlider({
+		Name = "Position",
+		Min = 200,
+		Max = 700,
+		Function = function(val) end, 
+		Default = 500
+	})
+	ChatPosition = Chat.CreateToggle({
+		Name = "Position",
+		HoverText = "Changes the chat position",
+		Function = function() end,
+	})
+	ChatColor = Chat.CreateToggle({
+		Name = "Color",
+		HoverText = "Changes the bubble chat color",
+		Function = function() end,
+	})
 end)
 
 runcode(function()
-    local CFrameHighJump = {["Enabled"] = false}
-    CFrameHighJump = GuiLibrary["ObjectsThatCanBeSaved"]["BlatantWindow"]["Api"].CreateOptionsButton({
-        ["Name"] = "CFrameHighJump",
-        ["HoverText"] = "DISABLE GRAVITY",
-        ["Function"] = function(callback)
-            if callback then
-                if entity.isAlive then
-                    workspace.Gravity = 0
-                    entity.character.HumanoidRootPart.CFrame -= Vector3.new(0, 2, 0)
-                    task.spawn(function()
-                        repeat
-                            if not CFrameHighJump["Enabled"] then break end
-                            if not entity.isAlive then break end
-                            workspace.Gravity = 0
-                            entity.character.HumanoidRootPart.CFrame += Vector3.new(0, 5, 0)
-                            task.wait(0.05)
-                            entity.character.HumanoidRootPart.CFrame += Vector3.new(0, 3, 0)
-                        until not CFrameHighJump["Enabled"]
-                    end)
-                end
-            else
-                workspace.Gravity = 196.2
-            end
-        end
-    })
-end)
-
-
-   
-
-local longjumping
-runcode(function()
-    local GrassLongJump = {["Enabled"] = false}
-    GrassLongJump = GuiLibrary["ObjectsThatCanBeSaved"]["UtilityWindow"]["Api"].CreateOptionsButton({
-        ["Name"] = "Old LongJump",
-        ["HoverText"] = "LongJump Before Vape Christmas Update",
-        ["Function"] = function(callback)
-            if callback then
-                if entity.isAlive then
-					longjumping = true
-                    workspace.Gravity = 10
-                    entity.character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-                    entity.character.HumanoidRootPart.CFrame += Vector3.new(0, 3, 0)
-                end
-            else
-                workspace.Gravity = 196.2
-				longjumping = false
-            end
-        end
-    })
-end)
-
-runcode(function()
-    local RedChams = {["Enabled"] = false}
-
-    local settings_tbl = {
-        ESP_Enabled = true,
-        ESP_TeamCheck = false,
-        Chams = true,
-        Chams_Color = Color3.fromRGB(255,0,0),
-        Chams_Transparency = 0.1,
-        Chams_Glow_Color = Color3.fromRGB(0, 0, 0),
-    }
-    local function destroy_chams(char)
-        for k,v in next, char:GetChildren() do
-            if v:IsA("BasePart") and v.Transparency ~= 1 then
-                if v:FindFirstChild("Glow") and v:FindFirstChild("Chams") then
-                    v.Glow:Destroy()
-                    v.Chams:Destroy()
-                end
-            end
-        end
-    end
-
-    local RunService = game:GetService("RunService")
-
-    RedChams = GuiLibrary["ObjectsThatCanBeSaved"]["RenderWindow"]["Api"].CreateOptionsButton({
-        ["Name"] = "RedChams",
-        ["HoverText"] = "0x83",
-        ["Function"] = function(callback)
-                if callback then
-                    RunService.RenderStepped:Connect(function()
-                    if settings_tbl.ESP_Enabled then
-                        for k,v in next, players:GetPlayers() do 
-                            if v == lplr then
-                                continue
-                            end
-                            if isAlive(v) then
-                                if not settings_tbl.ESP_TeamCheck then
-                                    local char = v.Character
-                                    for k, b in next, char:GetChildren() do
-                                        if b:IsA("BasePart") and 
-                                            b.Transparency ~= 1 then
-                                            if settings_tbl.Chams then
-                                                if not b:FindFirstChild("Glow") and not b:FindFirstChild("Chams") then
-                                                    local chams_box = Instance.new("BoxHandleAdornment", b)
-                                                    chams_box.Name = "Chams"
-                                                    chams_box.AlwaysOnTop = true 
-                                                    chams_box.ZIndex = 4 
-                                                    chams_box.Adornee = b 
-                                                    chams_box.Color3 = settings_tbl.Chams_Color
-                                                    chams_box.Transparency = settings_tbl.Chams_Transparency
-                                                    chams_box.Size = b.Size + Vector3.new(0.02, 0.02, 0.02)
-                                                    local glow_box = Instance.new("BoxHandleAdornment", b)
-                                                    glow_box.Name = "Glow"
-                                                    glow_box.AlwaysOnTop = false 
-                                                    glow_box.ZIndex = 3 
-                                                    glow_box.Adornee = b 
-                                                    glow_box.Color3 = settings_tbl.Chams_Glow_Color
-                                                    glow_box.Size = chams_box.Size + Vector3.new(0.13, 0.13, 0.13)
-                                                end
-                                            else
-                                                destroy_chams(char)
-                                            end
-                                        end
-                                    end
-                                elseif settings_tbl.ESP_TeamCheck and v.Team == lplr.Team then
-                                    destroy_chams(v.Character)
-                                end
-                            else
-                                destroy_chams(v.Character)
-                            end
-                        end
-                    else
-                        for k, v in next, players:GetPlayers() do
-                            if v ~= lplr and isAlive(v) then
-                                destroy_chams(v.Character)
-                            end
-                        end
-                    end
-                end)
-            else
-                createwarning("Grass", "Disabling Next Game", 3)
-            end
-        end
-    })
-end)
-
-runcode(function()
-    local VeloHighJump = {["Enabled"] = false}
-    VeloHighJump = GuiLibrary["ObjectsThatCanBeSaved"]["BlatantWindow"]["Api"].CreateOptionsButton({
-        ["Name"] = "VeloHighJump",
-        ["HoverText"] = "HighJump but velocity",
-        ["Function"] = function(callback)
-            if callback then
-                workspace.Gravity = 196.2
-                if entity.isAlive then
-                    entity.character.HumanoidRootPart.Velocity = entity.character.HumanoidRootPart.Velocity + Vector3.new(0, 450, 0)
-                end
-                VeloHighJump["ToggleButton"](false)
-            end
-        end
-    })
-end)
-
-runcode(function()
-    local part
-    local part2
-    local Airwalk = {["Enabled"] = false}
-    Airwalk = GuiLibrary["ObjectsThatCanBeSaved"]["BlatantWindow"]["Api"].CreateOptionsButton({
-        ["Name"] = "Airwalk",
-        ["HoverText"] = "pro fly",
-        ["Function"] = function(callback)
-            if callback then
-                part = Instance.new("Part")
-                part2 = Instance.new("Part")
-                part.Transparency = 1
-                part2.Transparency = 1
-                part.Parent = workspace
-                part.Anchored = true
-                part2.Parent = workspace
-                part2.Anchored = true
-                task.spawn(function()
-                    repeat
-                        task.wait()
-                        if entity.isAlive then
-			    part.CFrame = entity.character.HumanoidRootPart.CFrame - Vector3.new(0, 3.6, 0)
-			    part2.CFrame = entity.character.HumanoidRootPart.CFrame + Vector3.new(0, 2.5, 0)
-                        end
-                    until not Airwalk["Enabled"]
-                end)
-            else
-                if part then
-                    part:Destroy()
-                end
-                if part2 then
-                    part2:Destroy()
-                end
-            end
-        end
-    })
-end)
-
-runcode(function()
-	local Old4bigguysAura = {["Enabled"] = false}
-        Old4bigguysAura = GuiLibrary.ObjectsThatCanBeSaved.BlatantWindow.Api.CreateOptionsButton({
-        Name = "4bigguysexploit",
+	local HeightIncrease = {Value = 600}
+	local Velo = {Value = 5}
+	local Boost = {Enabled = true}
+	local Speed = {Value = 20}
+    local FastAirJump = {Enabled = false}
+    FastAirJump = GuiLibrary.ObjectsThatCanBeSaved.BlatantWindow.Api.CreateOptionsButton({
+        Name = "FastYeetJump",
+		HoverText = "Boosts You In The Air",
         Function = function(callback)
-            if callback then
+           	if callback then
                 task.spawn(function()
 					repeat
-						task.wait(0.03)
-						if (GuiLibrary.ObjectsThatCanBeSaved["Lobby CheckToggle"]["Api"].Enabled == false or matchState ~= 0) and Old4bigguysAura["Enabled"] then
-							local plrs = GetAllNearestHumanoidToPosition(true, 18.8, 1, false)
-							for i,plr in pairs(plrs) do
-								if plrs then 
-								   game:GetService("ReplicatedStorage").rbxts_include.node_modules["@rbxts"].net.out._NetManaged.HellBladeRelease:FireServer({
-                                   ["chargeTime"] = 0.999,
-                                   ["player"] = game:GetService("Players").LocalPlayer,
-                                   ["weapon"] =game:GetService("ReplicatedStorage").Inventories:FindFirstChild(lplr.Name.."infernal_saber"),
-                               })                                    
-								end
-							end
-						end
-					until Old4bigguysAura.Enabled == false
-				end)
-            end
-        end,
-        ["HoverText"] = "Attack players around you without aiming at them."
-    })
-end)
-
-runcode(function()
-    local autowin = {["Enabled"] = false}
-    autowin = GuiLibrary["ObjectsThatCanBeSaved"]["BlatantWindow"]["Api"].CreateOptionsButton({
-        ["Name"] = "Skywars Autowin",
-        ["HoverText"] = "HighJump but velocity",
-        ["Function"] = function(callback)
-            if callback then
-                if entity.isAlive then
-					createwarning("Grass private", "Skywars Autowin Enabled", 2)
-					for i, v in pairs(game:GetService("Players"):GetChildren()) do
-						if v.Character and v.Character:FindFirstChild("HumanoidRootPart") and v.Team ~= game.Players.LocalPlayer.Team then
-							print(v.Name)
-							repeat 
-							wait(0.2)
-							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
-							until v.Character.Humanoid.Health == 0 or not v.Character:FindFirstChild("Humanoid") or (not autowin.Enabled) 
-							createwarning("Grass private", "Skywars Autowin Disabled", 2)
-						end
-					end
-				end
+						local taskwait = 0.1
+						local taskwait2 = 0.05
+						lplr.Character.HumanoidRootPart.Velocity = Vector3.new(0, HeightIncrease.Value, 0)
+						task.wait(taskwait)
+						lplr.Character.HumanoidRootPart.Velocity = Vector3.new(0, Velo.Value, 0)
+						task.wait(taskwait2)
+					until (not FastAirJump.Enabled)
+                end)
             end
         end
     })
-end)
-
-local keystrokestroll = GuiLibrary["ObjectsThatCanBeSaved"]["WorldWindow"]["Api"].CreateOptionsButton({
-    ["Name"] = "CPS & WASD Keystrokes",
-    ["Function"] = function(callback)
-	    if callback then
-		  loadstring(game:HttpGet("https://raw.githubusercontent.com/sstvskids/keystrokes/main/strokes"))()
-		end
-	  end
-     })
-
-runcode(function()
-    local Confetti = {Enabled = false}
-    Confetti = GuiLibrary.ObjectsThatCanBeSaved.UtilityWindow.Api.CreateOptionsButton({
-        Name = "ConfettiExploit",
-        Function = function(callback)
-            if callback then 
-                task.spawn(function()
-                    repeat 
-                        task.wait(0.001) 
-game:GetService("ReplicatedStorage"):WaitForChild("events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"):WaitForChild("useAbility"):FireServer("PARTY_POPPER")
-                    until (not Confetti.Enabled)
-                end)
-            end
-        end,
-HoverText = "Confetti Exploit"
+    HeightIncrease = FastAirJump.CreateSlider({
+        Name = "Boost Amount",
+        Min = 1,
+        Max = 500, 
+        Function = function(val) end,
+        Default = 500
     })
+	Velo = FastAirJump.CreateSlider({
+        Name = "Front Boost",
+        Min = 1,
+        Max = 20, 
+        Function = function(val) end,
+        Default = 5
+    })
+	Boost = FastAirJump.CreateToggle({
+		Name = "Extra Boost",
+		Function = function() end,
+	})
 end)
 
-
 runcode(function()
-    local Dragonfire = {Enabled = false}
-    Dragonfire = GuiLibrary.ObjectsThatCanBeSaved.UtilityWindow.Api.CreateOptionsButton({
-        Name = "Dragon fire",
-        Function = function(callback)
-            if callback then 
-                task.spawn(function()
-                    repeat 
-                        task.wait(0.0001) 
-						local args = {
-							[1] = {
-								["player"] = game:GetService("Players").LocalPlayer
-							}
-						}
-						
-						game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("DragonBreath"):FireServer(unpack(args))						
-                    until (not Dragonfire.Enabled)
-                end)
-            end
-        end,
-HoverText = "Dragon exploit"
-    })
-end)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0,AnticheatBypassHighjump,0)
-runcode(function()
-    local TPHighJump = {Enabled = false}
-    TPHighJump = GuiLibrary.ObjectsThatCanBeSaved.BlatantWindow.Api.CreateOptionsButton({
-        Name = "Tpjump",
-        Function = function(callback)
-            if callback then 
-                task.spawn(function()
-                    repeat 
-                        task.wait(0.2) 
-						game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0,AnticheatBypassHighjump,0)						
-                    until (not TPHighJump.Enabled)
-                end)
-            end
-        end,
-HoverText = "Dragon exploit"
-    })
-end)
-runcode(function()
-	local TPAura = {["Enabled"] = false}
-	  TPAura = GuiLibrary.ObjectsThatCanBeSaved.BlatantWindow.Api.CreateOptionsButton({
-	  Name = "TPAura",
-	  Function = function(callback)
-		  if callback then
-			  task.spawn(function()
-				  repeat
-					  task.wait(0.03)
-					  if (GuiLibrary.ObjectsThatCanBeSaved["Lobby CheckToggle"]["Api"].Enabled == false or matchState ~= 0) and TPAura["Enabled"] then
-						  local plrs = GetAllNearestHumanoidToPosition(true, 10000, 1, false)
-						  for i,plr in pairs(plrs) do
-							  if plrs then
-									  local player = game.Players.LocalPlayer
-									  local camera = game.Workspace.CurrentCamera
-									  local targetPlayer = nil
-									  local distance = 1000000000
-									  local team = lplr.Team
-									  local cameraSubject = lplr.Character.Humanoid
-						  
-									  function findNearestPlayerOffTeam()
-										  local nearestPlayer = nil
-										  local nearestDistance = math.huge
-										  
-										  for _, currentPlayer in pairs(game.Players:GetPlayers()) do
-											  if currentPlayer ~= player and currentPlayer.Team ~= team and currentPlayer.Character and currentPlayer.Character.Humanoid.Health > 0 then
-												  local currentDistance = (currentPlayer.Character.Head.Position - player.Character.Head.Position).magnitude
-												  if currentDistance < nearestDistance then
-													  nearestPlayer = currentPlayer
-													  nearestDistance = currentDistance
-												  end
-											  end
-										  end
-										  
-										  return nearestPlayer
-								  end
-								  if cam.Enabled then 
-										workspace.CurrentCamera.CameraType = Enum.CameraType.Fixed
-						end
-								  entityLibrary.character.HumanoidRootPart.Anchored = true
-								  if targetPlayer and targetPlayer.Character and targetPlayer.Character.Humanoid.Health > 0 then
-									  player.Character.HumanoidRootPart.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1)
-							  end
-							  local distance = 1000000000
-							  targetPlayer = findNearestPlayerOffTeam()
-							  if targetPlayer and (lplr.Character.Head.Position - targetPlayer.Character.Head.Position).magnitude <= distance then
-								  lplr.Character.HumanoidRootPart.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1)
-							  end
-						  end
-					   end
-			end
-		   until TPAura.Enabled == false
-							if TPAura.Enabled == false then
-					entityLibrary.character.HumanoidRootPart.Anchored = false
-							  workspace.CurrentCamera.CameraType = Enum.CameraType.Track
-						   end
-		  end)
-		  end
-	  end,
-	  ["HoverText"] = "Found By Xzyn (requires bow + arrows)"
-  })
-cam = TPAura.CreateToggle({
-	  Name = "NoCamera",
-	  Function = function() end,
-	  HoverText = "removes your Camera"
-  })
-end)
-runcode(function()
-	local ClickTP1 = {Enabled = false}
-	local ClickTPMethod1 = {Value = "Normal"}
-	local ClickTPDelay1 = {Value = 1}
-	local ClickTPAmount1 = {Value = 1}
-	local ClickTPVertical1 = {Enabled = true}
-	local ClickTPVelocity1 = {Enabled = false}
-	local ClickTPRaycast1 = RaycastParams.new()
-	ClickTPRaycast.RespectCanCollide = true
-	ClickTPRaycast.FilterType = Enum.RaycastFilterType.Blacklist
-	ClickTP1 = GuiLibrary.ObjectsThatCanBeSaved.BlatantWindow.Api.CreateOptionsButton({
-		Name = "MouseTP1", 
-		Function = function(callback) 
+	local Enabled = false
+	local FPSUnlocker = {Enabled = false}
+	FPSUnlocker = GuiLibrary.ObjectsThatCanBeSaved.UtilityWindow.Api.CreateOptionsButton({
+		Name = "FPSUnlocker",
+		Function = function(callback)
 			if callback then
-				RunLoops:BindToHeartbeat("MouseTP1", function()
-					if entityLibrary.isAlive and ClickTPVelocity1.Enabled and ClickTPMethod1.Value == "SlowTP1" then 
-						entityLibrary.character.HumanoidRootPart.Velocity = Vector3.zero
-					end
+				task.spawn(function()
+					repeat
+						task.wait()
+						setfpscap(FPSAmount.Value)
+					until (not FPSUnlocker.Enabled)
 				end)
-				if entityLibrary.isAlive then 
-					ClickTPRaycast.FilterDescendantsInstances = {lplr.Character, gameCamera}
-					local ray = workspace:Raycast(gameCamera.CFrame.p, lplr:GetMouse().UnitRay.Direction * 10000, ClickTPRaycast)
-					local selectedPosition = ray and ray.Position + Vector3.new(0, entityLibrary.character.Humanoid.HipHeight + (entityLibrary.character.HumanoidRootPart.Size.Y / 2), 0)
-					if selectedPosition then 
-						if ClickTPMethod1.Value == "Normal" then
-							entityLibrary.character.HumanoidRootPart.CFrame = CFrame.new(selectedPosition)
-							ClickTP1.ToggleButton(false)
-						else
-							task.spawn(function()
-								repeat
-									if entityLibrary.isAlive then 
-										local newpos = (selectedPosition - entityLibrary.character.HumanoidRootPart.CFrame.p).Unit
-										newpos = newpos == newpos and newpos * math.min((selectedPosition - entityLibrary.character.HumanoidRootPart.CFrame.p).Magnitude, ClickTPAmount.Value) or Vector3.zero
-										entityLibrary.character.HumanoidRootPart.CFrame = entityLibrary.character.HumanoidRootPart.CFrame + Vector3.new(newpos.X, (ClickTPVertical.Enabled and newpos.Y or 0), newpos.Z)
-										if (selectedPosition - entityLibrary.character.HumanoidRootPart.CFrame.p).Magnitude <= 5 then 
-											break
-										end
-									end
-									task.wait(ClickTPDelay.Value / 100)
-								until entityLibrary.isAlive and (selectedPosition - entityLibrary.character.HumanoidRootPart.CFrame.p).Magnitude <= 5 or not ClickTP.Enabled
-								if ClickTP1.Enabled then ClickTP1.ToggleButton(false) end
-							end)
-						end
-					else
-						ClickTP1.ToggleButton(false)
-						warningNotification("ClickTP", "No position found.", 1)
-					end
-				else
-					if ClickTP1.Enabled then ClickTP1.ToggleButton(false) end
-				end
 			else
-				RunLoops:UnbindFromHeartbeat("MouseTP")
+				setfpscap(60)
 			end
-		end, 
-		HoverText = "Teleports to where your mouse is."
-	})
-	ClickTPMethod1 = ClickTP1.CreateDropdown({
-		Name = "Method",
-		List = {"Normal", "SlowTP"},
-		Function = function(val)
-			if ClickTPAmount1.Object then ClickTPAmount1.Object.Visible = val == "SlowTP" end
-			if ClickTPDelay1.Object then ClickTPDelay1.Object.Visible = val == "SlowTP" end
-			if ClickTPVertical1.Object then ClickTPVertical1.Object.Visible = val == "SlowTP" end
-			if ClickTPVelocity1.Object then ClickTPVelocity1.Object.Visible = val == "SlowTP" end
 		end
 	})
-	ClickTPAmount1 = ClickTP1.CreateSlider({
-		Name = "Amount",
-		Min = 1,
-		Max = 50,
-		Function = function() end
+	FPSAmount = FPSUnlocker.CreateSlider({
+		Name = "FPS",
+		Min = 60,
+		Max = 360, 
+		Function = function(val) end,
+		Default = 360
 	})
-	ClickTPAmount1.Object.Visible = false
-	ClickTPDelay1 = ClickTP1.CreateSlider({
-		Name = "Delay",
-		Min = 1,
-		Max = 50,
-		Function = function() end
-	})
-	ClickTPDelay1.Object.Visible = false
-	ClickTPVertical1 = ClickTP1.CreateToggle({
-		Name = "Vertical",
-		Default = true,
-		Function = function() end
-	})
-	ClickTPVertical1.Object.Visible = false
-	ClickTPVelocity1 = ClickTP1.CreateToggle({
-		Name = "No Velocity",
-		Default = true,
-		Function = function() end
-	})
-	ClickTPVelocity1.Object.Visible = false
 end)
+
+runcode(function()
+	local Enabled = false
+	local ChatBypass = {Enabled = false}
+    ChatBypass = GuiLibrary.ObjectsThatCanBeSaved.UtilityWindow.Api.CreateOptionsButton({
+        Name = "ChatBypass",
+		HoverText = "Lets You Swear",
+        Function = function(callback)
+            Enabled = callback
+			if Enabled then
+				ChatBypass["ToggleButton"](false)
+				if entity.isAlive then
+					local Keybind = "F"
+					loadstring(game:HttpGet("https://raw.githubusercontent.com/synnyyy/synergy/additional/betterbypasser",true))()
+				end
+			end
+		end
+	})
+end)
+
+
+runcode(function()
+    local FastFlyBoost = {Value = 2}
+    local FastFlySlow = {Value = 0.2}
+    local FastFlyDelay = {Value = 0}
+    local FastFlyEndDelay = {Value = 1.1}
+	local FastFly = {Enabled = false}
+	FastFly = GuiLibrary.ObjectsThatCanBeSaved.BlatantWindow.Api.CreateOptionsButton({
+		Name = "FastFly",
+		HoverText = "Flies fast",
+		Function = function(callback)
+			if callback then
+                _G.FastFly = true
+				game.Workspace.Gravity = 0
+				while _G.FastFly == true do 
+                    task.wait(FastFlySlow.Value)
+					local plr = game.Players.LocalPlayer
+					plr.Character.HumanoidRootPart.CFrame = plr.Character.HumanoidRootPart.CFrame + plr.Character.HumanoidRootPart.CFrame.lookVector * FastFlyBoost.Value
+					task.wait(FastFlyDelay.Value)
+					plr.Character.HumanoidRootPart.CFrame = plr.Character.HumanoidRootPart.CFrame + plr.Character.HumanoidRootPart.CFrame.lookVector * FastFlyBoost.Value
+					task.wait(FastFlyDelay.Value)
+					plr.Character.HumanoidRootPart.CFrame = plr.Character.HumanoidRootPart.CFrame + plr.Character.HumanoidRootPart.CFrame.lookVector * FastFlyBoost.Value
+					task.wait(FastFlyDelay.Value)
+					plr.Character.HumanoidRootPart.CFrame = plr.Character.HumanoidRootPart.CFrame + plr.Character.HumanoidRootPart.CFrame.lookVector * FastFlyBoost.Value
+					task.wait(FastFlyDelay.Value)
+					plr.Character.HumanoidRootPart.CFrame = plr.Character.HumanoidRootPart.CFrame + plr.Character.HumanoidRootPart.CFrame.lookVector * FastFlyBoost.Value
+					task.wait(FastFlyDelay.Value)
+					plr.Character.HumanoidRootPart.CFrame = plr.Character.HumanoidRootPart.CFrame + plr.Character.HumanoidRootPart.CFrame.lookVector * FastFlyBoost.Value
+					task.wait(FastFlyDelay.Value)
+					plr.Character.HumanoidRootPart.CFrame = plr.Character.HumanoidRootPart.CFrame + plr.Character.HumanoidRootPart.CFrame.lookVector * FastFlyBoost.Value
+					task.wait(FastFlyEndDelay.Value)
+				end
+            else
+                _G.FastFly = false
+                game.Workspace.Gravity = 192
+            end
+        end
+    })
+    FastFlyBoost = FastFly.CreateSlider({
+		Name = "Boost",
+		Min = 1,
+		Max = 2,
+		Function = function(val) end, 
+		Default = 2
+	})
+    FastFlySlow = FastFly.CreateSlider({
+		Name = "Slowdown",
+		Min = 0.1,
+		Max = 0.2,
+		Function = function(val) end, 
+		Default = 0.2
+	})
+    FastFlyDelay = FastFly.CreateSlider({
+		Name = "Boost Delay",
+		Min = 0,
+		Max = 0.1,
+		Function = function(val) end, 
+		Default = 0
+	})
+    FastFlyEndDelay = FastFly.CreateSlider({
+		Name = "End Slowdown",
+		Min = 0,
+		Max = 1.1,
+		Function = function(val) end, 
+		Default = 1.1
+	})
+end)
+
+
+local flyjump = {Enabled = false}
+    flyjump = GuiLibrary["ObjectsThatCanBeSaved"]["BlatantWindow"]["Api"].CreateOptionsButton({
+        Name = "InfiniteJump",
+        HoverText = "Jump without touching ground",
+        Function = function(callback) 
+            if callback then
+                task.spawn(function()
+                        game:GetService('RunService').RenderStepped:connect(function()
+                            game:GetService("UserInputService").JumpRequest:Connect(function()
+                                if flyjump.Enabled then
+                                    game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+                                end
+                            end)
+                        end)
+                    end)
+                else
+                    if keycodeconnection then
+                        keycodeconnection:Disconnect()
+                    end
+                end
+            end
+        })
+
+
