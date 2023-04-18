@@ -1,3 +1,2 @@
-# Owner-edition
-fgdfggfgdfg
-Shit
+# stuff
+sdfsdfsdfsdfdsfsdfdsf
